@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -37,12 +36,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             Claims info = jwtUtil.getUserInfoFromToken(token);
             setAuthentication(info.getSubject());
         }
-        try {
-            log.info("AuthFilter -> filterChain");
-            filterChain.doFilter(request, response);
-        } catch (FileUploadException e) {
-            log.error(e.getMessage());
-        }
+        log.info("AuthFilter -> filterChain");
+        filterChain.doFilter(request, response);
     }
 
     // 인증 처리

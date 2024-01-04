@@ -13,10 +13,6 @@ spring:
     hibernate:
       ddl-auto: none
 
-## TODO: upload path refactor
-upload:
-  path: /Users/iseungchul/img/
-
 jwt:
   secret:
     key: dGVhbW5ld3N2ZXJzaW9uMmp3dHNlY3JldGtleWJhc2U2NGVuY29kaW5n

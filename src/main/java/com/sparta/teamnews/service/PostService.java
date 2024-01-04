@@ -3,26 +3,20 @@ package com.sparta.teamnews.service;
 import com.sparta.teamnews.entity.Post;
 import com.sparta.teamnews.entity.User;
 import com.sparta.teamnews.repository.PostRepository;
+import com.sparta.teamnews.service.dto.ApiResponseDto;
 import com.sparta.teamnews.service.dto.PostRequestDto;
 import com.sparta.teamnews.service.dto.PostResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.RejectedExecutionException;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
-
-    @Value("${upload.path}")
-    private static String uploadPath;
 
     private final PostRepository postRepository;
 
@@ -41,41 +35,27 @@ public class PostService {
         return new PostResponseDto(post);
     }
 
-    //게시물 생성
-    public void createPost(String title, String content, User user, MultipartFile files) throws IOException {
-        if (files.isEmpty()) {
-            return;
-        }
-
-        // 원래 파일 이름 추출
-        String originalFileName = files.getOriginalFilename();
-
-        // 파일 이름으로 쓸 uuid 생성
-        String uuid = UUID.randomUUID().toString();
-
-        // 확장자 추출(ex : .png)
-        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-
-        // uuid와 확장자 결합
-        String savedName = uuid + extension;
-
-        // 파일을 불러올 때 사용할 파일 경로
-        String savedPath = uploadPath + savedName;
-
-        files.transferTo(new File(savedPath));
-
-        Post post = new Post(title, content, originalFileName, savedName, savedPath, user);
+    // TODO: File uploading feature implementation
+    public PostResponseDto createPost(PostRequestDto postRequestDto, User user) {
+        Post post = Post.builder()
+                .title(postRequestDto.getTitle())
+                .content(postRequestDto.getContent())
+                .user(user)
+                .build();
 
         postRepository.save(post);
+
+        return new PostResponseDto(post);
     }
 
+    // TODO: user checking to AOP
     @Transactional
-    public PostResponseDto updatePost(User user, Long id, PostRequestDto requestDto) {
+    public PostResponseDto updatePost(Long id, User user, PostRequestDto requestDto) {
 
         Post post = findPost(id);
 
         if (!post.getUser().equals(user)) {
-            throw new RejectedExecutionException();
+            throw new RejectedExecutionException("자신의 게시글만 수정 가능합니다.");
         }
         post.setTitle(requestDto.getTitle());
         post.setContent(requestDto.getContent());
@@ -83,14 +63,18 @@ public class PostService {
         return new PostResponseDto(post);
     }
 
-    public void deletePost(Long id, User user) {
+    // TODO: user checking to AOP
+    public ApiResponseDto deletePost(Long id, User user) {
 
         Post post = findPost(id);
 
         if (!post.getUser().equals(user)) {
-            throw new RejectedExecutionException();
+            throw new RejectedExecutionException("자신의 게시글만 삭제 가능합니다.");
         }
+
         postRepository.delete(post);
+
+        return new ApiResponseDto("게시글 삭제 완료", HttpStatus.OK.value());
     }
 
     public Post findPost(Long id) {
