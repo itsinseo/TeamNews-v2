@@ -9,8 +9,6 @@ import com.sparta.teamnews.service.dto.LikeResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.RejectedExecutionException;
-
 @Service
 @RequiredArgsConstructor
 public class LikeService {
@@ -34,17 +32,10 @@ public class LikeService {
         return new LikeResponseDto(like);
     }
 
-    // TODO: same user check AOP
-    public ApiResponseDto deletePostLike(Long likeId, User user) {
-
-        Like like = findLike(likeId);
-
-        if (!like.getUser().equals(user)) {
-            throw new RejectedExecutionException("자신의 좋아요만 취소 가능합니다.");
-        }
+    public ApiResponseDto deletePostLike(Like like, User user) {
         likeRepository.delete(like);
 
-        return new ApiResponseDto("삭제 성공!", 200);
+        return new ApiResponseDto("좋아요 취소 성공", 200);
     }
 
     public Like findLike(Long id) {

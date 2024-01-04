@@ -13,6 +13,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({IllegalArgumentException.class, RejectedExecutionException.class})
     public ResponseEntity<ApiResponseDto> exceptionHandler(Exception e) {
-        return new ResponseEntity<>(new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value())
+        );
     }
 }

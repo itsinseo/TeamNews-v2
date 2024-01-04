@@ -1,5 +1,6 @@
 package com.sparta.teamnews.controller;
 
+import com.sparta.teamnews.entity.Post;
 import com.sparta.teamnews.entity.User;
 import com.sparta.teamnews.security.UserDetailsImpl;
 import com.sparta.teamnews.service.PostService;
@@ -8,7 +9,6 @@ import com.sparta.teamnews.service.dto.PostRequestDto;
 import com.sparta.teamnews.service.dto.PostResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,9 +25,9 @@ public class PostController {
         return postService.getAllPosts();
     }
 
-    @GetMapping("/{id}")
-    public PostResponseDto getPost(@PathVariable Long id) {
-        return postService.getPost(id);
+    @GetMapping("/{postId}")
+    public PostResponseDto getPost(@PathVariable Long postId) {
+        return postService.getPost(postId);
     }
 
     @PostMapping
@@ -37,18 +37,19 @@ public class PostController {
         return postService.createPost(postRequestDto, user);
     }
 
-    @Transactional
-    @PutMapping("/{id}")
-    public PostResponseDto updatePost(@PathVariable Long id,
+    @PutMapping("/{postId}")
+    public PostResponseDto updatePost(@PathVariable Long postId,
                                       @AuthenticationPrincipal UserDetailsImpl userDetails,
                                       @RequestBody PostRequestDto requestDto) {
         User user = userDetails.getUser();
-        return postService.updatePost(id, user, requestDto);
+        Post post = postService.findPost(postId);
+        return postService.updatePost(post, user, requestDto);
     }
 
-    @DeleteMapping("/{id}")
-    public ApiResponseDto deletePost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    @DeleteMapping("/{postId}")
+    public ApiResponseDto deletePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
-        return postService.deletePost(id, user);
+        Post post = postService.findPost(postId);
+        return postService.deletePost(post, user);
     }
 }

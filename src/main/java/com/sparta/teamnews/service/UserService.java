@@ -87,22 +87,23 @@ public class UserService {
         String newProfileName = profileRequestDto.getNewProfileName();
         String newIntroduction = profileRequestDto.getNewIntroduction();
 
-        User user = findUser(userDetails.getId());  //id를 이용해 user찾기
+        User user = findUser(userDetails.getId());
         user.setProfileName(newProfileName);
         user.setIntroduction(newIntroduction);
+
         return new ApiResponseDto("프로필 수정 완료", HttpStatus.OK.value());
     }
 
     @Transactional
     public ApiResponseDto updatePassword(PasswordRequestDto passwordRequestDto, UserDetailsImpl userDetails) { //확일할 패스워드와 유저정보 같이 받아옴
         String password = passwordRequestDto.getPassword();
-        String newPassword = passwordEncoder.encode(passwordRequestDto.getNewPassword());
 
         if (!passwordEncoder.matches(password, userDetails.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 틀립니다.");
         }
 
         User user = findUser(userDetails.getId());
+        String newPassword = passwordEncoder.encode(passwordRequestDto.getNewPassword());
         user.setPassword(newPassword);
 
         return new ApiResponseDto("비밀번호 수정 완료", HttpStatus.OK.value());

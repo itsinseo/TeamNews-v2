@@ -1,5 +1,6 @@
 package com.sparta.teamnews.controller;
 
+import com.sparta.teamnews.entity.Comment;
 import com.sparta.teamnews.entity.User;
 import com.sparta.teamnews.security.UserDetailsImpl;
 import com.sparta.teamnews.service.CommentService;
@@ -28,12 +29,14 @@ public class CommentController {
                                         @AuthenticationPrincipal UserDetailsImpl userDetails,
                                         @RequestBody CommentRequestDto commentRequestDto) {
         User user = userDetails.getUser();
-        return commentService.updateComment(commentId, user, commentRequestDto);
+        Comment comment = commentService.findComment(commentId);
+        return commentService.updateComment(comment, user, commentRequestDto);
     }
 
     @DeleteMapping("/{commentId}")
     public ApiResponseDto deleteComment(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
-        return commentService.deleteComment(commentId, user);
+        Comment comment = commentService.findComment(commentId);
+        return commentService.deleteComment(comment, user);
     }
 }

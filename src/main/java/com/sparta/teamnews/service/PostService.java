@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.concurrent.RejectedExecutionException;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +26,6 @@ public class PostService {
                 .toList();
     }
 
-    @Transactional(readOnly = true)
     public PostResponseDto getPost(Long id) {
 
         Post post = findPost(id);
@@ -48,30 +46,15 @@ public class PostService {
         return new PostResponseDto(post);
     }
 
-    // TODO: user checking to AOP
     @Transactional
-    public PostResponseDto updatePost(Long id, User user, PostRequestDto requestDto) {
-
-        Post post = findPost(id);
-
-        if (!post.getUser().equals(user)) {
-            throw new RejectedExecutionException("자신의 게시글만 수정 가능합니다.");
-        }
+    public PostResponseDto updatePost(Post post, User user, PostRequestDto requestDto) {
         post.setTitle(requestDto.getTitle());
         post.setContent(requestDto.getContent());
 
         return new PostResponseDto(post);
     }
 
-    // TODO: user checking to AOP
-    public ApiResponseDto deletePost(Long id, User user) {
-
-        Post post = findPost(id);
-
-        if (!post.getUser().equals(user)) {
-            throw new RejectedExecutionException("자신의 게시글만 삭제 가능합니다.");
-        }
-
+    public ApiResponseDto deletePost(Post post, User user) {
         postRepository.delete(post);
 
         return new ApiResponseDto("게시글 삭제 완료", HttpStatus.OK.value());
