@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    url: jdbc:mysql://localhost:3306/teamnews
+    password: 1234
+  jpa:
+    properties:
+      hibernate:
+        format_sql: 'true'
+        use_sql_comments: 'true'
+        show_sql: 'true'
+    hibernate:
+      ddl-auto: none
+
+## TODO: upload path ????
+upload:
+  path: /Users/iseungchul/img/
+
+jwt:
+  secret:
+    key: dGVhbW5ld3N2ZXJzaW9uMmp3dHNlY3JldGtleWJhc2U2NGVuY29kaW5n
