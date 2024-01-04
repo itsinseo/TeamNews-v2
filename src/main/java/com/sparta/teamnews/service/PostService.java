@@ -1,10 +1,11 @@
 package com.sparta.teamnews.service;
 
-import com.sparta.teamnews.service.dto.PostRequestDto;
-import com.sparta.teamnews.service.dto.PostResponseDto;
 import com.sparta.teamnews.entity.Post;
 import com.sparta.teamnews.entity.User;
 import com.sparta.teamnews.repository.PostRepository;
+import com.sparta.teamnews.service.dto.PostRequestDto;
+import com.sparta.teamnews.service.dto.PostResponseDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,22 +18,19 @@ import java.util.UUID;
 import java.util.concurrent.RejectedExecutionException;
 
 @Service
+@RequiredArgsConstructor
 public class PostService {
+
     @Value("${upload.path}")
-    String uploadPath;
+    private static String uploadPath;
+
     private final PostRepository postRepository;
-    public PostService(PostRepository postRepository){
-        this.postRepository = postRepository;
-    }
 
-
-    public List<PostResponseDto> getAllPost() {
-        List<PostResponseDto> responseDtoList = postRepository.findAll()
+    public List<PostResponseDto> getAllPosts() {
+        return postRepository.findAll()
                 .stream()
                 .map(PostResponseDto::new)
                 .toList();
-
-        return responseDtoList;
     }
 
     @Transactional(readOnly = true)
@@ -43,20 +41,20 @@ public class PostService {
         return new PostResponseDto(post);
     }
 
-
     //게시물 생성
     public void createPost(String title, String content, User user, MultipartFile files) throws IOException {
         if (files.isEmpty()) {
             return;
         }
-//         원래 파일 이름 추출
-        String origName = files.getOriginalFilename();
+
+        // 원래 파일 이름 추출
+        String originalFileName = files.getOriginalFilename();
 
         // 파일 이름으로 쓸 uuid 생성
         String uuid = UUID.randomUUID().toString();
 
         // 확장자 추출(ex : .png)
-        String extension = origName.substring(origName.lastIndexOf("."));
+        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
 
         // uuid와 확장자 결합
         String savedName = uuid + extension;
@@ -66,30 +64,27 @@ public class PostService {
 
         files.transferTo(new File(savedPath));
 
-
-        Post post = new Post(title,content,origName,savedName,savedPath,user);
-
+        Post post = new Post(title, content, originalFileName, savedName, savedPath, user);
 
         postRepository.save(post);
-
     }
 
     @Transactional
     public PostResponseDto updatePost(User user, Long id, PostRequestDto requestDto) {
+
         Post post = findPost(id);
 
         if (!post.getUser().equals(user)) {
             throw new RejectedExecutionException();
         }
         post.setTitle(requestDto.getTitle());
-//        post.setImage(requestDto.getImage());
         post.setContent(requestDto.getContent());
 
         return new PostResponseDto(post);
-
     }
 
     public void deletePost(Long id, User user) {
+
         Post post = findPost(id);
 
         if (!post.getUser().equals(user)) {
@@ -97,7 +92,6 @@ public class PostService {
         }
         postRepository.delete(post);
     }
-
 
     public Post findPost(Long id) {
         return postRepository.findById(id).orElseThrow(() ->

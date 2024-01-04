@@ -1,25 +1,24 @@
 package com.sparta.teamnews.security;
 
 import com.sparta.teamnews.entity.User;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+@Getter
+@AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
-    User user;
 
-    public UserDetailsImpl(User user){
-        this.user = user;
+    private User user;
+
+    public Long getId() {
+        return this.user.getUserId();
     }
 
-    public User getUser() {
-        return this.user;
-    }
-    public Long getId(){
-        return this.user.getId();
-    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return new ArrayList<>();

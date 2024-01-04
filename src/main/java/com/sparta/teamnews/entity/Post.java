@@ -7,26 +7,26 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity     //Entity클래스
+@Entity
 @Getter
-@Table(name="posts")  //DB제작시 추가
-@NoArgsConstructor  //기본 생성자
-public class Post extends Timestamped{ //news 게시글 Entity
+@Table(name = "posts")
+@NoArgsConstructor
+public class Post extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;    //id
-  
-    @Column(name="title")
-    private String title;   //제목
+    private Long postId;
+
+    @Column(name = "title")
+    private String title;
 
 
-    @Column(name ="content",nullable = false, length = 500)
-    private String content;//작성내용
+    @Column(name = "content", nullable = false, length = 500)
+    private String content;
 
-    private String orgNm;
+    private String originalName;
 
-    private String savedNm;
+    private String savedName;
 
     private String savedPath;
 
@@ -38,24 +38,22 @@ public class Post extends Timestamped{ //news 게시글 Entity
     private List<Comment> commentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = {CascadeType.REMOVE})
-    private List<Like> LikeList = new ArrayList<>();
+    private List<Like> likeList = new ArrayList<>();
 
-
-    public Post(String title, String content, String orgNm,String savedNm, String savedPath ,User user) {
+    public Post(String title, String content, String originalName, String savedName, String savedPath, User user) {
         this.title = title;
         this.content = content;
-        this.orgNm = orgNm;
-        this.savedNm = savedNm;
+        this.originalName = originalName;
+        this.savedName = savedName;
         this.savedPath = savedPath;
         this.user = user;
     }
+
     public void setTitle(String title) {
         this.title = title;
     }
 
-
     public void setContent(String content) {
         this.content = content;
     }
-
 }

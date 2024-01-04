@@ -16,9 +16,9 @@ public class CommentResponseDto {
     private String profilename;
 
     public CommentResponseDto(Comment comment) {
-        this.id = comment.getId();
+        this.id = comment.getCommentId();
         this.body = comment.getBody();
-        this.profilename = comment.getUser().getProfilename();
+        this.profilename = comment.getUser().getProfileName();
         this.createdAt = comment.getCreatedAt();
         this.modifiedAt = comment.getModifiedAt();
     }

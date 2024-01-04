@@ -4,18 +4,16 @@ package com.sparta.teamnews.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
 @Entity
+@Getter
+@Table(name = "likes")
 @NoArgsConstructor
-@Table(name="likes")
 public class Like {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;    //id
+    private Long likeId;
 
     @JoinColumn(name = "postId")
     @ManyToOne

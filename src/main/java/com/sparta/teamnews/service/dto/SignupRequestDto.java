@@ -1,6 +1,5 @@
 package com.sparta.teamnews.service.dto;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +12,7 @@ public class SignupRequestDto {
     @NotBlank
     private String password;
     @NotBlank
-    private String profilename;
+    private String profileName;
     @NotBlank
-    private String introduce;
+    private String introduction;
 }

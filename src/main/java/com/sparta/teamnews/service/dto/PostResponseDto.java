@@ -10,9 +10,12 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
 public class PostResponseDto {
+
+    // TODO: JPA -> QueryDSL join (service, repository code refactoring & adding needed)
+
     private Long id;
     private String title;
-    private String profilename;
+    private String profileName;
     private String content;
     private String savedNm;
     private String savedPath;
@@ -24,16 +27,14 @@ public class PostResponseDto {
     private Integer like;
     private List<LikeResponseDto> likeList;
 
-
-
     public PostResponseDto(Post post) {
-        this.id = post.getId();
+        this.id = post.getPostId();
         this.title = post.getTitle();
-        this.profilename = post.getUser().getProfilename();
+        this.profileName = post.getUser().getProfileName();
         this.content = post.getContent();
-        this.savedNm = post.getSavedNm();
+        this.savedNm = post.getSavedName();
         this.savedPath = post.getSavedPath();
-        this.orgNm = post.getOrgNm();
+        this.orgNm = post.getOriginalName();
 
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();

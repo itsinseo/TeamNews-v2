@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -30,8 +29,8 @@
         <div class="login-id-label">Profilename</div>
         <input type="text" name="profilename" id="profilename" class="login-input-box">
 
-        <div class="login-id-label">Introduce</div>
-        <input type="text" name="introduce" id="introduce" class="login-input-box">
+        <div class="login-id-label">introduction</div>
+        <input type="text" name="introduction" id="introduction" class="login-input-box">
 
         <button id="login-id-submit" class="confirm-btn" onclick="signup()">
             회원 가입
@@ -52,7 +51,7 @@
         let username = $('#username').val();
         let password = $('#password').val();
         let profilename = $('#profilename').val();
-        let introduce = $('#introduce').val();
+        let introduction = $('#introduction').val();
 
         $.ajax({
             type: "POST",
@@ -62,7 +61,7 @@
                 username: username,
                 password: password,
                 profilename: profilename,
-                introduce: introduce
+                introduction: introduction
             }),
         })
             .done(function () {
@@ -73,11 +72,7 @@
             .fail(function (xhr, textStatus, errorThrown) {
                 console.log('statusCode: ' + xhr.status);
                 console.log('뭔가 잘못되었습니다...');
-
-                // window.location.href = host + '/mypage.html'
             });
-
-        // window.location.href = host + "/mypage.html";
     }
 
     // 특정 쿠키 값을 가져오는 함수

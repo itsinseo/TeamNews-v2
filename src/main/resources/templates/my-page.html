@@ -33,8 +33,8 @@
 
 
         <div class="login-id-label">자기소개</div>
-        <textarea type="text" name="introduce" id="introduce" class="profile-box" readonly
-                  required>introduce1</textarea>
+        <textarea type="text" name="introduction" id="introduction" class="profile-box" readonly
+                  required>introduction1</textarea>
 
         <button id="modify-profile" class="confirm-btn" onclick="modifyProfile()">
             수정하기
@@ -63,7 +63,7 @@
             success: function (response) {
                 setTextareaValue("username", response.username);
                 setTextareaValue("profilename", response.profilename);
-                setTextareaValue("introduce", response.introduce);
+                setTextareaValue("introduction", response.introduction);
             },
             error: function (xhr, status, error) {
                 console.error(error);
@@ -78,18 +78,18 @@
         $('#modify-profile').hide();
         $('#confirm-modify').show();
         document.getElementById("profilename").readOnly = false;
-        document.getElementById("introduce").readOnly = false;
+        document.getElementById("introduction").readOnly = false;
     }
 
     function confirmModifyProfile() {
         let profilename = $('#profilename').val();
-        let introduce = $('#introduce').val();
+        let introduction = $('#introduction').val();
 
         $.ajax({
             type: "PUT",
             url: `/api/user/profile`,
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({modifyprofilename: profilename, modifyintroduce: introduce}),
+            data: JSON.stringify({modifyprofilename: profilename, modifyintroduction: introduction}),
             headers: {
                 "Authorization": authCookie,
             },

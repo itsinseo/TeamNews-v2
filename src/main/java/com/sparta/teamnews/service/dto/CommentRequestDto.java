@@ -1,7 +1,5 @@
 package com.sparta.teamnews.service.dto;
 
-import com.sparta.teamnews.entity.Post;
-import com.sparta.teamnews.entity.User;
 import lombok.Getter;
 
 @Getter

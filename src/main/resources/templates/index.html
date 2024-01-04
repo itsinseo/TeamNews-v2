@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!--    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -21,12 +20,12 @@
     <!-- 부트스트랩 -->
     <script src="/js/basic.js"></script>
     <title>TodayOutfit</title>
-<style>
-    .scroll-container {
-        height: 100vh;
-        overflow-y: scroll;
-    }
-</style>
+    <style>
+        .scroll-container {
+            height: 100vh;
+            overflow-y: scroll;
+        }
+    </style>
 </head>
 <body>
 
@@ -57,7 +56,7 @@
         <!-- 게시글-->
         <div class="cards">
             <div id="cards" class="row row-cols-1 row-cols-md-5 g-5">
-                <div class="col" id = 1 >
+                <div class="col" id=1>
                     <div class="card h-100">
                         <img src=""
                              class="card-img-top" alt="...">
@@ -84,7 +83,7 @@
                 <div class="col">
                     <div class="card h-100">
                         <img src=""
-                             class="card-img-top"  onclick="detail(1)" alt="...">
+                             class="card-img-top" onclick="detail(1)" alt="...">
                         <div class="card-body">
                             <h5 class="card-title"></h5>
                             <button class="like-button" onclick="toggleLike(this)">
@@ -109,18 +108,16 @@
             headers: {
                 'Authorization': document.cookie // 클라이언트 쿠키의 값을 전달
             },
-            success: function(response) {
+            success: function (response) {
                 // 서버에서 반환된 데이터를 동적으로 HTML에 추가
                 var postCards = $('#cards');
 
                 $('#cards').empty()
                 // 게시물 데이터를 반복하면서 카드를 생성하고 추가
 
-                response.forEach(function(post) {
+                response.forEach(function (post) {
 
                     console.log(post);
-                    // var obj = JSON.parse(post);
-                    // console.log(obj.title);
                     var card = `<div class="col" id = 1>
                         <div class="card h-100">
                         <img src=${post.savedPath}
@@ -137,18 +134,17 @@
                 </div>`
 
                     postCards.append(card);
-
                 });
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.log(error);
             }
         });
     });
 
 
-// 페이지 로드 시 전체 게시물을 가져와서 동적으로 추가
-//     loadAllPosts();
+    // 페이지 로드 시 전체 게시물을 가져와서 동적으로 추가
+    //     loadAllPosts();
 
     function detail(id) {
         window.location.href = '/api/board?postnum=' + id;
@@ -170,13 +166,13 @@
                 headers: {
                     'Authorization': authCookie
                 },
-                success: function(res) {
+                success: function (res) {
 
                     // 성공 처리 로직
                     $(button).removeClass('liked');
 
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     // 에러 처리 로직
                 }
             });
@@ -190,13 +186,13 @@
                 headers: {
                     'Authorization': authCookie
                 },
-                success: function(res) {
+                success: function (res) {
                     console.log("성공")
                     // 성공 처리 로직
                     $(button).addClass('liked');
                     window.location.reload(); //새로고침
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.log("실패");
                 }
             });

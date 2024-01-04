@@ -1,6 +1,5 @@
 let host = 'http://' + window.location.host;
 
-//
 $(document).ready(function () {
     const auth = getToken();
     console.log("auth=", auth);
@@ -14,9 +13,6 @@ $(document).ready(function () {
         $('.postbox').show();
     }
 })
-
-
-
 
 function logout() {
     // 토큰 삭제

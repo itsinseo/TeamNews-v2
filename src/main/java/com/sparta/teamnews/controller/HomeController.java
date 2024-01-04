@@ -1,46 +1,55 @@
 package com.sparta.teamnews.controller;
 
 import com.sparta.teamnews.service.PostService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequestMapping("/page")
+@RequiredArgsConstructor
 public class HomeController {
 
     private final PostService postService;
 
-    public HomeController(PostService postService) {
-        this.postService = postService;
-    }
-
-    @GetMapping("/")
+    @GetMapping("/home")
     public String home() {
         return "index";
     }
 
-    @GetMapping("/api/user/login")
-    public String loginPage() { return "login";}
+    @GetMapping("/user/login")
+    public String loginPage() {
+        return "login";
+    }
 
-    @GetMapping("/api/user/signup")
-    public String signupPage() { return "signup";}
+    @GetMapping("/user/signup")
+    public String signupPage() {
+        return "signup";
+    }
 
-    @GetMapping("/api/user/mypage")
-    public String myPage() { return "mypage";}
+    @GetMapping("/user/my-page")
+    public String myPage() {
+        return "my-page";
+    }
 
-    @GetMapping("api/board")       //게시글 단건 조회
-    public String getPost(Model model, @RequestParam("postnum") Long id){
+    @GetMapping("/post")
+    public String getPost(Model model, @RequestParam("postnum") Long id) {
         postService.getPost(id);
         model.addAttribute("postnum", id);
         return "detail";
     }
-    @GetMapping("/api/user/new-post")
-    public String newPostPage() { return "newpost";}
 
-    @GetMapping("/api/user/passwordchange")
+    @GetMapping("/user/new-post")
+    public String newPostPage() {
+        return "new-post";
+    }
+
+    @GetMapping("/user/password-change")
     public String passwordChange() {
-        return "passwordchange";
+        return "password-change";
     }
 
 }

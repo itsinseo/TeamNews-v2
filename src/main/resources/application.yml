@@ -13,7 +13,7 @@ spring:
     hibernate:
       ddl-auto: none
 
-## TODO: upload path ????
+## TODO: upload path refactor
 upload:
   path: /Users/iseungchul/img/
 

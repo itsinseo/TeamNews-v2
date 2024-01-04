@@ -6,11 +6,10 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
-@EnableJpaAuditing      //Timestamped 시간을 체크해주는 기능을 사용하기위한 애너테이션
+@EnableJpaAuditing
 public class TeamNewsApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(TeamNewsApplication.class, args);
     }
-
 }

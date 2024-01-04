@@ -1,6 +1,7 @@
 package com.sparta.teamnews.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,12 +9,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "comments")
 @NoArgsConstructor
-public class Comment extends Timestamped{
-
+public class Comment extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long commentId;
 
     @Column(name = "body")
     private String body;
@@ -30,10 +30,10 @@ public class Comment extends Timestamped{
         this.body = body;
     }
 
+    @Builder
     public Comment(String body, Post post, User user) {
         this.body = body;
         this.post = post;
         this.user = user;
-
     }
 }
