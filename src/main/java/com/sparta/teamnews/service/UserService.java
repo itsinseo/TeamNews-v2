@@ -35,13 +35,6 @@ public class UserService {
             throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
         }
 
-        // TODO: email 중복확인
-        // String email = requestDto.getEmail();
-        // Optional<User> checkEmail = userRepository.findByEmail(email);
-        // if (checkEmail.isPresent()) {
-        //    throw new IllegalArgumentException("중복된 Email 입니다.");
-        // }
-
         // 사용자 등록
         User user = new User(username, password, profileName, introduction);
         userRepository.save(user);
@@ -66,9 +59,8 @@ public class UserService {
     }
 
     public UserResponseDto logoutUser(HttpServletRequest request) {
-        // Redis 연동 후
-        // 로그아웃 요청 JWT 를 블랙리스트에 등록
-        return new UserResponseDto("로그아웃 성공, 테스트용 반환임 제거 필요", HttpStatus.OK.value());
+        // TODO: Redis 연동 후 로그아웃 요청 JWT 를 블랙리스트에 등록
+        return new UserResponseDto("로그아웃 성공", HttpStatus.OK.value());
     }
 
     // username 으로 사용자 찾기 + null 체크
@@ -80,7 +72,7 @@ public class UserService {
 
     public User findUser(Long id) {
         return userRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("해당 id값이 존재하지 않습니다.")
+                new IllegalArgumentException("해당 ID 값이 존재하지 않습니다.")
         );
     }
 
@@ -91,20 +83,20 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponseDto updateProfile(ProfileRequestDto profileRequestDto, UserDetailsImpl userDetails) {
+    public ApiResponseDto updateProfile(ProfileRequestDto profileRequestDto, UserDetailsImpl userDetails) {
         String newProfileName = profileRequestDto.getNewProfileName();
         String newIntroduction = profileRequestDto.getNewIntroduction();
 
         User user = findUser(userDetails.getId());  //id를 이용해 user찾기
         user.setProfileName(newProfileName);
         user.setIntroduction(newIntroduction);
-        return new UserResponseDto(user);
+        return new ApiResponseDto("프로필 수정 완료", HttpStatus.OK.value());
     }
 
     @Transactional
-    public UserResponseDto updatePassword(PwdRequestDto pwdRequestDto, UserDetailsImpl userDetails) { //확일할 패스워드와 유저정보 같이 받아옴
-        String password = pwdRequestDto.getPassword();
-        String newPassword = passwordEncoder.encode(pwdRequestDto.getNewPassword());
+    public ApiResponseDto updatePassword(PasswordRequestDto passwordRequestDto, UserDetailsImpl userDetails) { //확일할 패스워드와 유저정보 같이 받아옴
+        String password = passwordRequestDto.getPassword();
+        String newPassword = passwordEncoder.encode(passwordRequestDto.getNewPassword());
 
         if (!passwordEncoder.matches(password, userDetails.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 틀립니다.");
@@ -113,6 +105,6 @@ public class UserService {
         User user = findUser(userDetails.getId());
         user.setPassword(newPassword);
 
-        return new UserResponseDto(user);
+        return new ApiResponseDto("비밀번호 수정 완료", HttpStatus.OK.value());
     }
 }

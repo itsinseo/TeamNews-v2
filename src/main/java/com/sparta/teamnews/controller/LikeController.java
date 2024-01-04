@@ -1,5 +1,6 @@
 package com.sparta.teamnews.controller;
 
+import com.sparta.teamnews.entity.User;
 import com.sparta.teamnews.security.UserDetailsImpl;
 import com.sparta.teamnews.service.LikeService;
 import com.sparta.teamnews.service.dto.ApiResponseDto;
@@ -19,11 +20,13 @@ public class LikeController {
 
     @PostMapping("/posts/{postId}/like")
     public LikeResponseDto createPostLike(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return likeService.createPostLike(postId, userDetails);
+        User user = userDetails.getUser();
+        return likeService.createPostLike(postId, user);
     }
 
     @DeleteMapping("/{likeId}")
     public ResponseEntity<ApiResponseDto> deletePostLike(@PathVariable Long likeId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(likeService.deletePostLike(likeId, userDetails.getUser()));
+        User user = userDetails.getUser();
+        return ResponseEntity.status(HttpStatus.CREATED).body(likeService.deletePostLike(likeId, user));
     }
 }

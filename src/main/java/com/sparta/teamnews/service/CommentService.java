@@ -5,9 +5,10 @@ import com.sparta.teamnews.entity.Post;
 import com.sparta.teamnews.entity.User;
 import com.sparta.teamnews.repository.CommentRepository;
 import com.sparta.teamnews.security.UserDetailsImpl;
+import com.sparta.teamnews.service.dto.ApiResponseDto;
 import com.sparta.teamnews.service.dto.CommentRequestDto;
-import com.sparta.teamnews.service.dto.CommentResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,17 +21,32 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final PostService postService;
 
-    public CommentResponseDto createComment(CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
+    public ApiResponseDto createComment(Long postId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
 
-        Post post = postService.findPost(commentRequestDto.getPostId());
+        Post post = postService.findPost(postId);
         Comment comment = new Comment(commentRequestDto.getBody(), post, userDetails.getUser());
 
         commentRepository.save(comment);
 
-        return new CommentResponseDto(comment);
+        return new ApiResponseDto("댓글 작성 완료", HttpStatus.OK.value());
     }
 
-    public void deleteComment(Long id, User user) {
+    // TODO: same user AOP
+    @Transactional
+    public ApiResponseDto updateComment(Long id, User user, CommentRequestDto commentRequestDto) {
+        Comment comment = findComment(id);
+
+        if (!user.equals(comment.getUser())) {
+            throw new RejectedExecutionException("직접쓴 글이 아니면 수정할 수 없습니다.");
+        }
+
+        comment.setBody(commentRequestDto.getBody());
+
+        return new ApiResponseDto("댓글 수정 완료", HttpStatus.OK.value());
+    }
+
+    // TODO: same user AOP
+    public ApiResponseDto deleteComment(Long id, User user) {
 
         Comment comment = findComment(id);
 
@@ -39,16 +55,8 @@ public class CommentService {
         }
 
         commentRepository.delete(comment);
-    }
 
-    @Transactional
-    public void updateComment(Long id, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
-        Comment comment = findComment(id);
-        if (userDetails.getUsername().equals(comment.getUser().getUsername())) {
-            comment.setBody(commentRequestDto.getBody());
-        } else {
-            throw new IllegalArgumentException("직접쓴 글이 아니면 수정할 수 없습니다.");
-        }
+        return new ApiResponseDto("댓글 삭제 완료", HttpStatus.OK.value());
     }
 
     public Comment findComment(Long id) {

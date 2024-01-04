@@ -41,13 +41,11 @@ public class UserController {
 
     @PutMapping("/profile")
     public ApiResponseDto updateProfile(@RequestBody ProfileRequestDto profileRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        userService.updateProfile(profileRequestDto, userDetails);
-        return new ApiResponseDto("프로필 수정 완료", HttpStatus.OK.value());
+        return userService.updateProfile(profileRequestDto, userDetails);
     }
 
     @PutMapping("/profile/password")
-    public ApiResponseDto updatePassword(@RequestBody PwdRequestDto pwdRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        userService.updatePassword(pwdRequestDto, userDetails);
-        return new ApiResponseDto("비밀번호 수정 완료", HttpStatus.OK.value());
+    public ApiResponseDto updatePassword(@RequestBody PasswordRequestDto passwordRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return userService.updatePassword(passwordRequestDto, userDetails);
     }
 }

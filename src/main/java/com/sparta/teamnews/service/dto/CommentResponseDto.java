@@ -9,16 +9,17 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class CommentResponseDto {
-    private Long id;
+
+    private Long commentId;
     private String body;
+    private String profileName;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private String profilename;
 
     public CommentResponseDto(Comment comment) {
-        this.id = comment.getCommentId();
+        this.commentId = comment.getCommentId();
         this.body = comment.getBody();
-        this.profilename = comment.getUser().getProfileName();
+        this.profileName = comment.getUser().getProfileName();
         this.createdAt = comment.getCreatedAt();
         this.modifiedAt = comment.getModifiedAt();
     }

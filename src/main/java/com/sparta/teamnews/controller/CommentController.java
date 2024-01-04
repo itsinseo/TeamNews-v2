@@ -1,11 +1,11 @@
 package com.sparta.teamnews.controller;
 
+import com.sparta.teamnews.entity.User;
 import com.sparta.teamnews.security.UserDetailsImpl;
 import com.sparta.teamnews.service.CommentService;
 import com.sparta.teamnews.service.dto.ApiResponseDto;
 import com.sparta.teamnews.service.dto.CommentRequestDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,19 +16,24 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping
-    public ApiResponseDto createComment(@RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        commentService.createComment(commentRequestDto, userDetails);
-        return new ApiResponseDto("댓글 작성 완료", HttpStatus.OK.value());
+    @PostMapping("/{postId}")
+    public ApiResponseDto createComment(@PathVariable Long postId,
+                                        @RequestBody CommentRequestDto commentRequestDto,
+                                        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentService.createComment(postId, commentRequestDto, userDetails);
     }
 
-    @PutMapping("/{id}")            //댓글 수정 수정
-    public void updateComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        commentService.updateComment(id, commentRequestDto, userDetails);
+    @PutMapping("/{commentId}")
+    public ApiResponseDto updateComment(@PathVariable Long commentId,
+                                        @AuthenticationPrincipal UserDetailsImpl userDetails,
+                                        @RequestBody CommentRequestDto commentRequestDto) {
+        User user = userDetails.getUser();
+        return commentService.updateComment(commentId, user, commentRequestDto);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteComment(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        commentService.deleteComment(id, userDetails.getUser());
+    @DeleteMapping("/{commentId}")
+    public ApiResponseDto deleteComment(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        return commentService.deleteComment(commentId, user);
     }
 }
