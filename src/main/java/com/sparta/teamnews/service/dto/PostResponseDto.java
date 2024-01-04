@@ -1,7 +1,6 @@
-package com.sparta.teamnews.dto;
+package com.sparta.teamnews.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.sparta.teamnews.entity.Like;
 import com.sparta.teamnews.entity.Post;
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package com.sparta.teamnews.dto;
+package com.sparta.teamnews.service.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

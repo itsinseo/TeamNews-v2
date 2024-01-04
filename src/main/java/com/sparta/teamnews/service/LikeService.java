@@ -1,9 +1,7 @@
 package com.sparta.teamnews.service;
 
-import com.sparta.teamnews.dto.ApiResponseDto;
-import com.sparta.teamnews.dto.LikeResponseDto;
-import com.sparta.teamnews.dto.PostResponseDto;
-import com.sparta.teamnews.entity.Comment;
+import com.sparta.teamnews.service.dto.ApiResponseDto;
+import com.sparta.teamnews.service.dto.LikeResponseDto;
 import com.sparta.teamnews.entity.Like;
 import com.sparta.teamnews.entity.Post;
 import com.sparta.teamnews.entity.User;

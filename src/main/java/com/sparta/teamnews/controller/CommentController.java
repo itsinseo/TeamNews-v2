@@ -1,7 +1,7 @@
 package com.sparta.teamnews.controller;
 
-import com.sparta.teamnews.dto.ApiResponseDto;
-import com.sparta.teamnews.dto.CommentRequestDto;
+import com.sparta.teamnews.service.dto.ApiResponseDto;
+import com.sparta.teamnews.service.dto.CommentRequestDto;
 import com.sparta.teamnews.security.UserDetailsImpl;
 import com.sparta.teamnews.service.CommentService;
 import org.springframework.http.HttpStatus;

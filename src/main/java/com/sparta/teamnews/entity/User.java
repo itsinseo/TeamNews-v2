@@ -1,6 +1,5 @@
 package com.sparta.teamnews.entity;
 
-import com.sparta.teamnews.dto.UserResponseDto;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

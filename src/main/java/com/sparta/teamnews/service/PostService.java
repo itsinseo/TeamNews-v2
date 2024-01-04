@@ -1,7 +1,7 @@
 package com.sparta.teamnews.service;
 
-import com.sparta.teamnews.dto.PostRequestDto;
-import com.sparta.teamnews.dto.PostResponseDto;
+import com.sparta.teamnews.service.dto.PostRequestDto;
+import com.sparta.teamnews.service.dto.PostResponseDto;
 import com.sparta.teamnews.entity.Post;
 import com.sparta.teamnews.entity.User;
 import com.sparta.teamnews.repository.PostRepository;

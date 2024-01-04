@@ -1,10 +1,10 @@
 package com.sparta.teamnews.service;
 
-import com.sparta.teamnews.dto.*;
 import com.sparta.teamnews.entity.User;
 import com.sparta.teamnews.jwt.JwtUtil;
 import com.sparta.teamnews.repository.UserRepository;
 import com.sparta.teamnews.security.UserDetailsImpl;
+import com.sparta.teamnews.service.dto.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;

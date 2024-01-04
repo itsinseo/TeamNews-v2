@@ -1,8 +1,8 @@
 package com.sparta.teamnews.controller;
 
-import com.sparta.teamnews.dto.*;
 import com.sparta.teamnews.security.UserDetailsImpl;
 import com.sparta.teamnews.service.UserService;
+import com.sparta.teamnews.service.dto.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;

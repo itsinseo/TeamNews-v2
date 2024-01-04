@@ -1,4 +1,4 @@
-package com.sparta.teamnews.dto;
+package com.sparta.teamnews.service.dto;
 
 import lombok.Getter;
 
