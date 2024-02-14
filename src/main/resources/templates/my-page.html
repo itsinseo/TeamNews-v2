@@ -20,7 +20,7 @@
     <div id="login-title">Today Outfit Mypage</div>
     <br>
     <br>
-    <button id="login-id-btn" onclick="location.href='/api/user/passwordchange'">
+    <button id="login-id-btn" onclick="location.href='/page/user/password-change'">
         비밀번호 수정하기
     </button>
     <div>
@@ -28,8 +28,8 @@
         <textarea type="text" name="username" id="username" class="profile-box" readonly>username1</textarea>
 
         <div class="login-id-label">프로필 이름</div>
-        <textarea type="text" name="profilename" id="profilename" class="profile-box" readonly
-                  required>profilename1</textarea>
+        <textarea type="text" name="profileName" id="profileName" class="profile-box" readonly
+                  required>profileName1</textarea>
 
 
         <div class="login-id-label">자기소개</div>
@@ -55,14 +55,14 @@
 
     $(document).ready(function () {
         $.ajax({
-            url: '/api/user/profile', // 요청을 보낼 서버의 URL
+            url: '/teamnews/users/profile', // 요청을 보낼 서버의 URL
             method: 'GET', // 요청 메소드 (GET, POST 등)
             headers: {
                 "Authorization": authCookie,
             },
             success: function (response) {
                 setTextareaValue("username", response.username);
-                setTextareaValue("profilename", response.profilename);
+                setTextareaValue("profileName", response.profileName);
                 setTextareaValue("introduction", response.introduction);
             },
             error: function (xhr, status, error) {
@@ -77,26 +77,26 @@
     function modifyProfile() {
         $('#modify-profile').hide();
         $('#confirm-modify').show();
-        document.getElementById("profilename").readOnly = false;
+        document.getElementById("profileName").readOnly = false;
         document.getElementById("introduction").readOnly = false;
     }
 
     function confirmModifyProfile() {
-        let profilename = $('#profilename').val();
+        let profileName = $('#profileName').val();
         let introduction = $('#introduction').val();
 
         $.ajax({
             type: "PUT",
-            url: `/api/user/profile`,
+            url: `/teamnews/users/profile`,
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({modifyprofilename: profilename, modifyintroduction: introduction}),
+            data: JSON.stringify({modifyprofileName: profileName, modifyintroduction: introduction}),
             headers: {
                 "Authorization": authCookie,
             },
         })
             .done(function () {
                     alert('프로필 수정 잘 되었습니다...');
-                    window.location.href = host + "/api/user/mypage";
+                    window.location.href = host + "/page/user/my-page";
                 }
             )
             .fail(function (xhr, textStatus, errorThrown) {

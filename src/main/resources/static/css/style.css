@@ -548,7 +548,7 @@ header {
     margin-right: 5px;
 }
 
-.profilename {
+.profileName {
     width: 100px;
     height: 52px;
     background-color: #252525;
@@ -556,7 +556,6 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-
 }
 
 .update2 {

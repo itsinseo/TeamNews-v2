@@ -2,9 +2,7 @@ let host = 'http://' + window.location.host;
 
 $(document).ready(function () {
     const auth = getToken();
-    console.log("auth=", auth);
     if (auth === '') {
-
         $('#login-text').show();
         $('#signup-text').show();
     } else {
@@ -17,7 +15,7 @@ $(document).ready(function () {
 function logout() {
     // 토큰 삭제
     Cookies.remove('Authorization', {path: '/'});
-    window.location.href = host + "/";
+    window.location.href = host + "/page/user/login";
 }
 
 function getToken() {
@@ -27,7 +25,3 @@ function getToken() {
     }
     return auth;
 }
-
-
-
-

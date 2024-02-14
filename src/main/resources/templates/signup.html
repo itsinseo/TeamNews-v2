@@ -27,7 +27,7 @@
         <input type="password" name="password" id="password" class="login-input-box" required>
 
         <div class="login-id-label">Profilename</div>
-        <input type="text" name="profilename" id="profilename" class="login-input-box">
+        <input type="text" name="profileName" id="profileName" class="login-input-box">
 
         <div class="login-id-label">introduction</div>
         <input type="text" name="introduction" id="introduction" class="login-input-box">
@@ -50,28 +50,26 @@
 
         let username = $('#username').val();
         let password = $('#password').val();
-        let profilename = $('#profilename').val();
+        let profileName = $('#profileName').val();
         let introduction = $('#introduction').val();
 
         $.ajax({
             type: "POST",
-            url: `/api/user/signup`,
+            url: `/teamnews/users/signup`,
             contentType: "application/json",
             data: JSON.stringify({
                 username: username,
                 password: password,
-                profilename: profilename,
+                profileName: profileName,
                 introduction: introduction
             }),
         })
             .done(function () {
-                    console.log('잘 되었습니다...');
-                    window.location.href = host + '/api/user/login';
+                    window.location.href = host + '/page/user/login';
                 }
             )
             .fail(function (xhr, textStatus, errorThrown) {
                 console.log('statusCode: ' + xhr.status);
-                console.log('뭔가 잘못되었습니다...');
             });
     }
 

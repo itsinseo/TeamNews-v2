@@ -41,8 +41,8 @@ public class User {
         this.password = password;
     }
 
-    public void setProfileName(String profilename) {
-        this.profileName = profilename;
+    public void setProfileName(String profileName) {
+        this.profileName = profileName;
     }
 
     public void setIntroduction(String introduction) {

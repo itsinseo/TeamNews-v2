@@ -20,7 +20,7 @@
     <div id="login-title">Log into Today Outfit</div>
     <br>
     <br>
-    <button id="login-id-btn" onclick="location.href='/api/user/signup'">
+    <button id="login-id-btn" onclick="location.href='/page/user/signup'">
         회원 가입하기
     </button>
     <div>
@@ -65,7 +65,7 @@
 
         $.ajax({
             type: "POST",
-            url: `/api/user/login`,
+            url: `/teamnews/users/login`,
             contentType: "application/json",
             data: JSON.stringify({username: username, password: password}),
         })
@@ -79,11 +79,11 @@
                     jqXHR.setRequestHeader('Authorization', token);
                 });
 
-                window.location.href = host;
+                window.location.href = '/page/home'
             })
             .fail(function (xhr, textStatus, errorThrown) {
                 console.log('statusCode: ' + xhr.status);
-                window.location.href = host + '/api/user/login-page?error'
+                window.location.href = host + '/page/user/login-page?error'
             });
     }
 </script>

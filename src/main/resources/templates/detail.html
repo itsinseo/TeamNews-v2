@@ -56,7 +56,7 @@
             background-color: transparent;
         }
 
-        .profilename {
+        .profileName {
             margin-left: 15px;
         }
 
@@ -99,10 +99,9 @@
         <button class="comment-submit" onclick="onComment()">등록</button>
     </div>
     <div class="comment-container">
-        <!-- 댓글 -->록
         <div class="comment-input-wrapper">
-            <div class="profilename">profilename</div>
-            <div class="comment-input">ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</div>
+            <div class="profileName">profileName</div>
+            <div class="comment-input">입력</div>
             <div class="header3">
                 <button class="update2" onclick="editComment()">Edit</button>
                 <button class="delete2" onclick="deleteComment()">Delete</button>
@@ -116,7 +115,7 @@
     $(document).ready(function () {
 
         $.ajax({
-            url: `/api/post/${postnum}`,
+            url: `/teamnews/posts/${postnum}`,
             type: "GET",
             contentType: 'application/json',
             headers: {
@@ -134,16 +133,17 @@
                 let commentList = response.comment;
 
                 commentList.forEach(function (comment) {
-                    console.log(comment)
-                    var box = `<div class="comment-input-wrapper">
-                                    <div class="profilename">${comment.profilename}</div>
+                    var box = `
+                                <div class="comment-input-wrapper">
+                                    <div class="profileName">${comment.profileName}</div>
                                     <textarea class="comment-input" id="input${comment.id}" readonly>${comment.body}</textarea>
                                     <div class="header2">
                                         <button class="update2" onclick="confirmEdit(this)" id="confirm${comment.id}" value="${comment.id}" style="display: none">Confirm</button>
                                         <button class="update2" onclick="editComment(this)" id="edit${comment.id}" value="${comment.id}">Edit</button>
                                         <button class="delete2" onclick="deleteComment(this)" id="delete${comment.id}"  value="${comment.id}">Delete</button>
                                     </div>
-                                </div>`;
+                                </div>
+                                `;
 
                     $('.comment-container').append(box);
                 });
@@ -171,7 +171,7 @@
         let authCookie = Cookies.get("Authorization");
         $.ajax({
             type: "DELETE",
-            url: `/api/post/${postnum}`,
+            url: `/teamnews/posts/${postnum}`,
             contentType: "application/json",
             headers: {
                 'Authorization': authCookie
@@ -191,7 +191,6 @@
     function BtnChange() {
         const btnElement = document.getElementById('editBtn');
         var edit = "Edit";
-        console.log(btnElement.innerText + "값");
         if (btnElement.innerText === edit) {
             btnElement.innerText = 'Ok';
             document.getElementById("title").readOnly = false;
@@ -211,7 +210,7 @@
         var authCookie = Cookies.get("Authorization");
         $.ajax({
             type: "PUT",
-            url: `/api/post/${postnum}`,
+            url: `/teamnews/posts/${postnum}`,
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify({
                 title: modifytitle, content: modifycontent,
@@ -241,7 +240,7 @@
         $.ajax({
             type: "POST",
             contentType: 'application/json',
-            url: "/api/comment",
+            url: "/teamnews/comments",
 
             data: JSON.stringify({postId: postId, body: body}),
             headers: {
@@ -275,7 +274,7 @@
         $.ajax({
             type: "PUT",
             contentType: 'application/json',
-            url: `/api/comment/${commentnum}`,
+            url: `/teamnews/comments/${commentnum}`,
             data: JSON.stringify({body: body}),
             headers: {
                 'Authorization': authCookie
@@ -300,7 +299,7 @@
         $.ajax({
             type: "DELETE",
             contentType: 'application/json',
-            url: `/api/comment/${commentnum}`,
+            url: `/teamnews/comments/${commentnum}`,
             headers: {
                 'Authorization': authCookie
             },

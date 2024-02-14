@@ -34,20 +34,20 @@
         <div id="header-title-select-shop">
             Today Outfit
         </div>
-        <a id="signup-text" href="/api/user/signup" class="optionButton" style="display: none">
+        <a id="signup-text" href="/page/user/signup" class="optionButton" style="display: none">
             SIGNUP
         </a>
-        <a id="login-text" href="/api/user/login" class="loginAndLogout" style="display: none">
+        <a id="login-text" href="/page/user/login" class="loginAndLogout" style="display: none">
             LOGIN
         </a>
-        <a id="mypage-text" href="/api/user/mypage" class="optionButton" style="display: none">
+        <a id="mypage-text" href="/page/user/my-page" class="optionButton" style="display: none">
             MYPAGE
         </a>
         <a id="logout-text" href="javascript:logout()" class="loginAndLogout" style="display: none">
             LOGOUT
         </a>
         <div class="postbox" style="display: none">
-            <a id="new-text" href="/api/user/new-post">
+            <a id="new-text" href="/page/user/new-post">
                 New Post
             </a>
         </div>
@@ -102,7 +102,7 @@
 <script>
     $(document).ready(function () {
         $.ajax({
-            url: '/api/post',
+            url: '/teamnews/posts',
             type: 'GET',
             contentType: 'application/json',
             headers: {
@@ -116,15 +116,13 @@
                 // 게시물 데이터를 반복하면서 카드를 생성하고 추가
 
                 response.forEach(function (post) {
-
-                    console.log(post);
                     var card = `<div class="col" id = 1>
                         <div class="card h-100">
                         <img src=${post.savedPath}
                     class="card-img-top"  onclick="detail(${post.id})" alt="...">
                         <div class="card-body">
                         <span data-id="${post.id}" class="post-id" style="display: none">${post.id}</span>
-                        <h5 class="card-title">${post.profilename}</h5>
+                        <h5 class="card-title">${post.profileName}</h5>
                         <button class="like-button" onclick="toggleLike(this)" style="background-color: transparent;">
                             <span class="icon"style="color: #721C24">❤</span>
                             <span class="counter"style="color: white">${post.like}</span>
@@ -137,24 +135,19 @@
                 });
             },
             error: function (xhr, status, error) {
-                console.log(error);
+                console.log('statusCode: ' + xhr.status);
             }
         });
     });
 
-
-    // 페이지 로드 시 전체 게시물을 가져와서 동적으로 추가
-    //     loadAllPosts();
-
     function detail(id) {
-        window.location.href = '/api/board?postnum=' + id;
+        window.location.href = '/page/board?postnum=' + id;
     }
 
     function toggleLike(button) {
 
         let authCookie = Cookies.get("Authorization");
         let postId = $(button).closest('.card').find('.post-id').data('id');
-        console.log(postId);
 
         if ($(button).hasClass('liked')) {
             // 이미 좋아요 상태인 경우
@@ -177,7 +170,6 @@
                 }
             });
         } else {
-            console.log("hi")
             // 좋아요 상태가 아닌 경우
             $.ajax({
                 type: "POST",
@@ -187,13 +179,12 @@
                     'Authorization': authCookie
                 },
                 success: function (res) {
-                    console.log("성공")
                     // 성공 처리 로직
                     $(button).addClass('liked');
                     window.location.reload(); //새로고침
                 },
                 error: function (xhr, status, error) {
-                    console.log("실패");
+                    console.log('statusCode: ' + xhr.status);
                 }
             });
         }
